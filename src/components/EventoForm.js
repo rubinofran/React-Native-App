@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Formik } from "formik";
 import { StyleSheet, View, TextInput, Button, Alert, Text} from "react-native";
@@ -8,7 +9,6 @@ import NavBar from "./NavBar";
 function EventoForm({ form, setForm, eventos, setEventos }) {
 
     const [eventoAux] = useState(form.data)
-    /* console.log(form.data) */
     const buttonTitle = form.nuevo ? 'agregar' : 'modificar'
 
     function fechaInvalida(fecha) {
@@ -56,7 +56,9 @@ function EventoForm({ form, setForm, eventos, setEventos }) {
                 Evento_nombre: values.Evento_nombre,
                 Evento_descrip: values.Evento_descrip,
                 Evento_clave_BM: values.Evento_clave_BM,
-                Evento_fecha: values.Evento_fecha
+                Evento_monto: values.Evento_monto,
+                Evento_fecha: values.Evento_fecha,
+                Evento_estado: values.Evento_estado
             });
             setEventos([...eventos.filter(x => x.Evento_ID !== values.Evento_ID), values]);
             console.log('Se modificó el evento de la lista')

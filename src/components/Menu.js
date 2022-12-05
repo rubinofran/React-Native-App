@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+
+import { StyleSheet, Text, View } from "react-native";
 import { Link } from "react-router-native"; 
 import NavBar from "./NavBar";
 
@@ -13,7 +14,7 @@ const MenuOpc = ({ children, to }) => {
 }
 
 function MenuComponent() {
-    
+
     useEffect(() => {
 		console.log('Ingresando al menú principal')
 	}, []);

@@ -1,14 +1,17 @@
-
-import { useState } from "react";
+import React from "react";
+import { useState, useContext } from "react";
 import { StyleSheet, Text, View, Alert, Button, TextInput } from "react-native";
+
+import { EventoInfoContext } from "../context/EventoInfoContext";
 
 import eventoService from "../services/events";
 
 function Evento({ data, eventos, setEventos, setForm }) {
 
+    const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
     const [claveAux, setClaveAux] = useState("")
+    
     function onChangeText(claveIngresada) {
-        /* console.log(claveIngresada) */
         setClaveAux(claveIngresada)
     }
 
@@ -26,6 +29,26 @@ function Evento({ data, eventos, setEventos, setForm }) {
 		}
 	};
 
+    const activarEvento = async (values, aux) => {
+        /* de forma provisoria para observar si actualiza bien el estado */
+        try {
+            await eventoService.modificarEvento(values.Evento_ID, {
+                Evento_nombre: values.Evento_nombre,
+                Evento_descrip: values.Evento_descrip,
+                Evento_clave_BM: values.Evento_clave_BM,
+                Evento_monto: values.Evento_monto,
+                Evento_fecha: values.Evento_fecha,
+                Evento_estado: aux ? "activo" : "inactivo"
+            });
+            values.Evento_estado = aux ? "activo" : "inactivo"
+            setEventos([...eventos.filter(x => x.Evento_ID !== values.Evento_ID), values]);
+            setEventoInfo({ id: values.Evento_ID, estado: aux })
+            console.log('Se activó el evento de la lista')
+        } catch (err) {
+            console.log('ERROR, no se pudo activar el evento de la lista: ', err);
+        }
+	};
+
     return (
         <View style={styles.opc}>
             <Text style={styles.txt}>
@@ -38,6 +61,8 @@ function Evento({ data, eventos, setEventos, setForm }) {
                 {data.Evento_fecha}
             </Text>
             <TextInput 
+                /* VALIDACIÓN, HABILITAR CUANDO ESTÉ COMPLETO EL SISTEMA */
+                editable={data.Evento_estado === "activo" | data.Evento_estado === "finalizado" ? false : true}
                 style={styles.txt}
                 placeholder='Clave para eliminar o modificar'
                 value={claveAux}
@@ -46,6 +71,7 @@ function Evento({ data, eventos, setEventos, setForm }) {
             />
             <View style={styles.acciones}>
                 <Button 
+                    disabled={data.Evento_estado === "activo" | data.Evento_estado === "finalizado" ? true : false}
                     color='lightgreen'  
                     title='Modificar'
                     onPress={() => {
@@ -54,6 +80,7 @@ function Evento({ data, eventos, setEventos, setForm }) {
                             console.log('Validación: no cumple con los requisitos para eliminar el evento')
                             Alert.alert('Para modificar un evento debe conocer la clave') 
                         } else {
+                            setClaveAux("")
 						    setForm({
                                 visible: true,
                                 nuevo: false,
@@ -66,11 +93,12 @@ function Evento({ data, eventos, setEventos, setForm }) {
                     color='lightblue'  
                     title='Descripción'
                     onPress={() => {
-                        console.log(`Consulta sobre la descripción del evento: ${data.Evento_nombre}`)
+                        console.log(`Consulta sobre la descripción del evento "${data.Evento_nombre}": ${data.Evento_descrip}`)
                         Alert.alert(data.Evento_descrip === ""? 'Sin descripción' : data.Evento_descrip)
                     }}
                 />
                 <Button 
+                    disabled={data.Evento_estado === "activo" | data.Evento_estado === "finalizado" ? true : false}
                     color='salmon'  
                     title='Eliminar'
                     onPress={() => {
@@ -82,6 +110,24 @@ function Evento({ data, eventos, setEventos, setForm }) {
                             eliminarEvento()
                         }
                     }}
+                />
+            </View>
+            <View style={styles.acciones}>
+                <Button 
+                    /* VALIDACIÓN, HABILITAR CUANDO ESTÉ COMPLETO EL SISTEMA */
+                    disabled={eventoInfo.estado | data.Evento_estado === "finalizado" ? true : false}
+                    color='lightblue'  
+                    title='Acceso al público'
+                    onPress={() => {
+                        console.log(`Intenta dar inicio al evento: ${data.Evento_nombre}`)
+                        if(noCumpleValidaciones(data.Evento_clave_BM)) { /* FALTAN VALIDACIONES */
+                            console.log('Validación: no cumple con los requisitos para eliminar el evento')
+                            Alert.alert('Para dar inicio a un evento debe conocer la clave') 
+                        } else {
+                            activarEvento(data, data.Evento_estado === "inactivo" ? true : false)
+                            setClaveAux("")
+                        }
+					}}
                 />
             </View>
         </View>   

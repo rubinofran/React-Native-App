@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Modal, ScrollView, Text } from "react-native";
 
@@ -47,6 +48,7 @@ function ProductoLista() {
 		<View>
             <NavBar />
 			<View style={styles.subBar}>
+				<Text style={styles.txt}>PRODUCTOS</Text>
 				<Button
 					color='lightgreen'  
 					title='[+] Nuevo' 
@@ -65,7 +67,6 @@ function ProductoLista() {
 						})
 					}}
 				/>
-				<Text style={styles.txt}>PRODUCTOS</Text>
 				<Formulario
 					form={form}
 					setForm={setForm}

@@ -1,15 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View, Alert, Button } from "react-native";
 
-import productoService from "../services/products";
+/* import productoService from "../services/products"; */
 
-function Producto({ data, productos, setProductos, setForm }) {
+function Venta({ data, productos, setProductos, noCumpleValidaciones }) {
 
-    function noCumpleValidaciones(data) {
-        return true
-    }
-
-    const eliminarProducto = async () => {
+/*     const eliminarProducto = async () => {
 		try {
 			await productoService.eliminarProducto(data.Producto_ID);
 			setProductos(productos.filter(x => x.Producto_ID !== data.Producto_ID));
@@ -17,46 +13,36 @@ function Producto({ data, productos, setProductos, setForm }) {
 		} catch (err) {
 			console.log('ERROR, no se pudo eliminar el producto de la lista: ', err);
 		}
-	};
+	}; */
 
     return (
         <View style={styles.opc}>
             <Text style={styles.txt}>{data.Producto_nombre}: {data.Producto_precio_por_unidad}$</Text>
             <Text style={styles.txt}>Marca: {data.Producto_marca}</Text>
-            <Text style={data.Producto_cantidad > 0 ? styles.txtStock : styles.txtSinStock}>
+{/*             <Text style={data.Producto_cantidad > 0 ? styles.txtStock : styles.txtSinStock}>
                 Unidades: {data.Producto_cantidad}
-            </Text>
+            </Text> */}
             <View style={styles.acciones}>
                 <Button 
                     color='lightgreen'  
-                    title='Modificar'
+                    title='[+] Reponer'
                     onPress={() => {
-                        console.log(`Intenta modificar el producto: ${data.Producto_nombre}`)
-						setForm({
-                            visible: true,
-                            nuevo: false,
-                            data: data
-                        })
-					}}
-                />
-                <Button 
-                    color='lightblue'  
-                    title='Descripción'
-                    onPress={() => {
-                        console.log(`Consulta sobre la descripción del producto: ${data.Producto_nombre}`)
-                        Alert.alert(data.Producto_descrip === ""? 'Sin descripción' : data.Producto_descrip)
+                        console.log(`Intenta reponer el producto: ${data.Producto_nombre}`)
+                        if(noCumpleValidaciones) { /* FALTAN VALIDACIONES */
+                            console.log('Validación: este evento ya fue finalizado')
+                            Alert.alert('Este evento ya fue finalizado') 
+                        }
                     }}
                 />
                 <Button 
+                    disabled={data.Producto_cantidad > 0 ? false : true}
                     color='salmon'  
-                    title='Eliminar'
+                    title='[-] Vender'
                     onPress={() => {
-                        console.log(`Intenta eliminar el producto: ${data.Producto_nombre}`)
-                        if(noCumpleValidaciones()) {
-                            console.log('Validación: no cumple con los requisitos para eliminar el producto')
-                            Alert.alert('VALIDAR') 
-                        } else {
-                            eliminarProducto()
+                        console.log(`Intenta vender el producto: ${data.Producto_nombre}`)
+                        if(noCumpleValidaciones) { /* FALTAN VALIDACIONES */
+                            console.log('Validación: este evento ya fue finalizado')
+                            Alert.alert('Este evento ya fue finalizado') 
                         }
                     }}
                 />
@@ -99,4 +85,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Producto;
+export default Venta;

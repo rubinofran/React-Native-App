@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Formik } from "formik";
 import { StyleSheet, View, TextInput, Button, Alert, Text} from "react-native";
@@ -8,14 +9,13 @@ import NavBar from "./NavBar";
 function ProductoForm({ form, setForm, productos, setProductos }) {
 
     const [productoAux] = useState(form.data)
-    /* console.log(form.data) */
     const buttonTitle = form.nuevo ? 'agregar' : 'modificar'
 
     function camposIncorrectos(values) {
         return  values.Producto_nombre === ""|
                 values.Producto_marca === "" |
                 values.Producto_precio_por_unidad <= 0 | 
-                values.Producto_cantidad <= 0  
+                values.Producto_cantidad < 0  
     }
 
     function noCumpleValidaciones(values) {
@@ -111,7 +111,7 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
                             />
                             <TextInput 
                                 style={styles.input}
-                                placeholder='Cantidad de unidades (> 0) *'
+                                placeholder='Cantidad de unidades (>= 0) *'
                                 value={values.Producto_cantidad.toString()}
                                 onChangeText={handleChange('Producto_cantidad')}                        
                             />
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     },
 	txt: {
         fontSize: 20
-    },
+    }
 })
 
 export default ProductoForm;

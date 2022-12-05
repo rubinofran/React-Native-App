@@ -1,5 +1,9 @@
-import { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Button, Modal, ScrollView, Text } from "react-native";
+import { Link } from "react-router-native"; 
+
+import { EventoInfoContext } from "../context/EventoInfoContext";
 
 import eventoService from "../services/events";
 import Evento from "../components/Evento"; 
@@ -32,15 +36,25 @@ function EventoLista() {
 		data: {}
 	});
 
+	const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
     const [eventos, setEventos] = useState([]);
-	const [algunEventoActivo, setAlgunEventoActivo] = useState(true)
 
     useEffect(() => {
 		console.log('Ingresando al listado de eventos')
 		async function fetchData() {
 			const response = await eventoService.obtenerEventos();
 			setEventos(response.data); 
-			(response.data.some(x => x.Evento_estado === 'activo')) ? setAlgunEventoActivo(true) : setAlgunEventoActivo(false)
+			(response.data.some(x => {
+				if(x.Evento_estado === 'activo') {
+					setEventoInfo({ id: x.Evento_ID, estado: true })
+					console.log(`Evento "${x.Evento_nombre}":`)
+					return true;
+				}
+				setEventoInfo({ id: "", estado: false })
+				return false;
+			})) 
+				? console.log('Activo')
+				: console.log('No se encuentró ningún evento activo')
 		}
 		fetchData();
 	}, []);
@@ -49,6 +63,7 @@ function EventoLista() {
         <View>
             <NavBar />
             <View style={styles.subBar}>
+				<Text style={styles.txt}>EVENTOS</Text>
 				<Button
 					color='lightgreen'  
 					title='[+] Nuevo' 
@@ -66,16 +81,21 @@ function EventoLista() {
 						})
 					}}
 				/>
-				<Text style={styles.txt}>EVENTOS</Text>
-				<Text style={algunEventoActivo ? styles.txtActivo : styles.txtInactivoFinalizado}>
-                	{algunEventoActivo ? '(1 activo)' : '(0 activos)'}
-            	</Text>
 				<Formulario
 					form={form}
 					setForm={setForm}
 					eventos={eventos}
 					setEventos={setEventos}
 				/>
+			</View>
+			<View style={styles.subBar}>
+				<Text style={eventoInfo.estado ? styles.txtActivo : styles.txtInactivoFinalizado}>
+                	{eventoInfo.estado ? '(1 activo)' : '(0 activos)'}
+            	</Text>
+				{eventoInfo.estado ? 	
+				<Link to='/ventas'>
+					<Text style={styles.txt}>Ingresar</Text>
+				</Link> : <Text style={styles.txt}>. . . . . . .</Text>}
 			</View>
 			<ScrollView style={styles.scrollView}>
 				{eventos.map((x, auxKey) => (
@@ -96,7 +116,7 @@ const styles = StyleSheet.create({
 	scrollView: {
 		backgroundColor: 'lightblue',
 		marginHorizontal: 10,
-		marginBottom: 100
+		marginBottom: 150
 	},
 	subBar: {
         flexDirection: 'row',
