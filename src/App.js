@@ -7,7 +7,7 @@ import { EventoInfoContext } from "./context/EventoInfoContext";
 
 function App() {
 
-  const [eventoInfo, setEventoInfo] = useState({ id: "", estado: false});
+  const [eventoInfo, setEventoInfo] = useState({ id: "", estado: false, prods: []});
 	const eventoInfoProvider = useMemo(
 		() => ({ eventoInfo, setEventoInfo }),
 		[eventoInfo, setEventoInfo]

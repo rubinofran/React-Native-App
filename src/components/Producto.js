@@ -3,16 +3,24 @@ import { StyleSheet, Text, View, Alert, Button } from "react-native";
 
 import productoService from "../services/products";
 
-function Producto({ data, productos, setProductos, setForm }) {
+function Producto({ data, productos, setProductos, setForm, ventas }) {
 
-    function noCumpleValidaciones(data) {
-        return true
+    
+    function noCumpleValidacionesParaEliminar(id) {
+        let noCumple = false
+        ventas.map(x => {
+            if(x.Producto_ID === id) {
+                /* console.log('En producto pertenece a al menos un registro de venta: ', x) */
+                noCumple = true
+            }
+        })
+        return noCumple
     }
 
-    const eliminarProducto = async () => {
+    const eliminarProducto = async (id) => {
 		try {
-			await productoService.eliminarProducto(data.Producto_ID);
-			setProductos(productos.filter(x => x.Producto_ID !== data.Producto_ID));
+			await productoService.eliminarProducto(id);
+			setProductos(productos.filter(x => x.Producto_ID !== id));
 			console.log('Se eliminó el producto de la lista')
 		} catch (err) {
 			console.log('ERROR, no se pudo eliminar el producto de la lista: ', err);
@@ -44,7 +52,7 @@ function Producto({ data, productos, setProductos, setForm }) {
                     title='Descripción'
                     onPress={() => {
                         console.log(`Consulta sobre la descripción del producto: ${data.Producto_nombre}`)
-                        Alert.alert(data.Producto_descrip === ""? 'Sin descripción' : data.Producto_descrip)
+                        Alert.alert(`${data.Producto_nombre} ${data.Producto_marca}`, data.Producto_descrip === "" ? 'Sin descripción' : data.Producto_descrip)
                     }}
                 />
                 <Button 
@@ -52,11 +60,11 @@ function Producto({ data, productos, setProductos, setForm }) {
                     title='Eliminar'
                     onPress={() => {
                         console.log(`Intenta eliminar el producto: ${data.Producto_nombre}`)
-                        if(noCumpleValidaciones()) {
+                        if(noCumpleValidacionesParaEliminar(data.Producto_ID)) {
                             console.log('Validación: no cumple con los requisitos para eliminar el producto')
-                            Alert.alert('VALIDAR') 
+                            Alert.alert('Error', 'El producto pertenece a los registros de venta y no puede ser eliminado') 
                         } else {
-                            eliminarProducto()
+                            eliminarProducto(data.Producto_ID)
                         }
                     }}
                 />

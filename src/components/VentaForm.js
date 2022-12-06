@@ -3,19 +3,17 @@ import { useState, useContext } from "react";
 import { Formik } from "formik";
 import { StyleSheet, View, TextInput, Button, Alert, Text} from "react-native";
 
-import { EventoInfoContext } from "../context/EventoInfoContext";
 import eventoService from "../services/events";
 
 import NavBar from "./NavBar";
 
 function VentaForm({ form, setForm, eventoActivo, setEventoActivo }) {
-
-    const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
+    
     const [eventoAux] = useState(form.data)
 
     function camposIncorrectos(values) {
-        return  /* values.Evento_clave_BM === "" | 
-                values.Evento_monto <= 0 */ false
+        return  values.Evento_clave_BM === "" | 
+                values.Evento_monto <= 0
     }
 
     function noCumpleValidaciones(clave) {
@@ -45,10 +43,10 @@ function VentaForm({ form, setForm, eventoActivo, setEventoActivo }) {
                 console.log(`Intenta finalizar con:`, values);
                 if(camposIncorrectos(values)) {
                     console.log('Primera validación: alguno de los campos no fue completado correctamente')
-                    Alert.alert('Alguno de los campos no fue completado correctamente')
+                    Alert.alert('Error *', 'Alguno de los campos no fue completado correctamente')
                 } else if(noCumpleValidaciones(values.Evento_clave_BM)) {
                     console.log(`Segunda validación: no cumple con los requisitos para finalizar el evento`)
-                    Alert.alert('Para finalizar un evento debe conocer la clave')
+                    Alert.alert('Error', 'Para finalizar un evento debe conocer la clave')
                 } else {
                     finalizarEvento(values.Evento_monto) 
                     setForm({

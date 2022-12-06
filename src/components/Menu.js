@@ -1,5 +1,7 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+
+import { EventoInfoContext } from "../context/EventoInfoContext";
 
 import { StyleSheet, Text, View } from "react-native";
 import { Link } from "react-router-native"; 
@@ -15,8 +17,11 @@ const MenuOpc = ({ children, to }) => {
 
 function MenuComponent() {
 
+    const { setEventoInfo } = useContext(EventoInfoContext)
+
     useEffect(() => {
 		console.log('Ingresando al menú principal')
+        setEventoInfo({ id: "", estado: false, productos: [] })
 	}, []);
 
     return (

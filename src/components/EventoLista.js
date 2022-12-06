@@ -6,6 +6,9 @@ import { Link } from "react-router-native";
 import { EventoInfoContext } from "../context/EventoInfoContext";
 
 import eventoService from "../services/events";
+import productoService from "../services/products";
+import ventaService from "../services/sales";
+
 import Evento from "../components/Evento"; 
 import NavBar from "./NavBar";
 import EventoForm from "./EventoForm";
@@ -37,27 +40,22 @@ function EventoLista() {
 	});
 
 	const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
-    const [eventos, setEventos] = useState([]);
+    const [eventos, setEventos] = useState([])
+	const [productos, setProductos] = useState([])
+	const [ventas, setVentas] = useState([])
 
     useEffect(() => {
 		console.log('Ingresando al listado de eventos')
 		async function fetchData() {
-			const response = await eventoService.obtenerEventos();
-			setEventos(response.data); 
-			(response.data.some(x => {
-				if(x.Evento_estado === 'activo') {
-					setEventoInfo({ id: x.Evento_ID, estado: true })
-					console.log(`Evento "${x.Evento_nombre}":`)
-					return true;
-				}
-				setEventoInfo({ id: "", estado: false })
-				return false;
-			})) 
-				? console.log('Activo')
-				: console.log('No se encuentró ningún evento activo')
+			const responseEv = await eventoService.obtenerEventos()
+			setEventos(responseEv.data)
+			const responseProd = await productoService.obtenerProductos()
+			setProductos(responseProd.data) 
+			const responseVe = await ventaService.obtenerVentas()
+			setVentas(responseVe.data)
 		}
-		fetchData();
-	}, []);
+		fetchData()
+	}, [form]);
 
     return (
         <View>
@@ -95,18 +93,22 @@ function EventoLista() {
 				{eventoInfo.estado ? 	
 				<Link to='/ventas'>
 					<Text style={styles.txt}>Ingresar</Text>
-				</Link> : <Text style={styles.txt}>. . . . . . .</Text>}
+				</Link> : <Text style={styles.txt}>. . . . . . . .</Text>}
 			</View>
 			<ScrollView style={styles.scrollView}>
-				{eventos.map((x, auxKey) => (
-					<Evento
-						key={auxKey}
-						data={x}
-						eventos={eventos}
-						setEventos={setEventos}
-						setForm={setForm}
-					/>
-				))}
+				{eventos.map((x, auxKey) => {
+					return (
+						<Evento
+							key={auxKey}
+							data={x}
+							eventos={eventos}
+							setEventos={setEventos}
+							setForm={setForm}
+							productos={productos}
+							ventas={ventas}
+						/>
+					)
+				})}
 			</ScrollView>
         </View>
     )

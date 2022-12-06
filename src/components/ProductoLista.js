@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Modal, ScrollView, Text } from "react-native";
 
 import productoService from "../services/products";
+import ventaService from "../services/sales";
+
 import Producto from "../components/Producto";
 import NavBar from "./NavBar";
 import ProductoForm from "./ProductoForm";
@@ -34,15 +36,18 @@ function ProductoLista() {
 	});
 
     const [productos, setProductos] = useState([]);
+	const [ventas, setVentas] = useState([])
 
     useEffect(() => {
+		console.log('Ingresando al listado de productos')
 		async function fetchData() {
-			console.log('Ingresando al listado de productos')
-			const response = await productoService.obtenerProductos();
-			setProductos(response.data);
+			const responseProd = await productoService.obtenerProductos();
+			setProductos(responseProd.data);
+			const responseVe = await ventaService.obtenerVentas();
+			setVentas(responseVe.data)
 		}
 		fetchData();
-	}, []);
+	}, [form]);
 
     return (
 		<View>
@@ -82,6 +87,7 @@ function ProductoLista() {
 						productos={productos}
 						setProductos={setProductos}
 						setForm={setForm}
+						ventas={ventas}
 					/>
 				))}
 			</ScrollView>

@@ -39,28 +39,20 @@ function VentaLista() {
     const [eventoActivo, setEventoActivo] = useState({});
 	const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
 
-	async function val() {
-		const response = await eventoService.obtenerEvento(eventoInfo.id)
-		setEventoActivo(response.data)
-	}
-
 	function noCumpleValidaciones() {
-		console.log(eventoActivo.Evento_estado != "activo")
-		return false
+		return eventoActivo.Evento_estado != "activo" 
 	}
 
 	useEffect(() => {
 		async function fetchData() {
 			console.log('Obteniendo información del evento activo')
-			let response = await eventoService.obtenerEvento(eventoInfo.id)
-			setEventoActivo(response.data)
-			/* PROVISORIO para pruebas, la lista debe ser de cada evento */
-			console.log('Ingresando al listado de productos que se venden en el evento')
-			response = await productoService.obtenerProductos();
-			setProductos(response.data);
+			const responseEv = await eventoService.obtenerEvento(eventoInfo.id)
+			setEventoActivo(responseEv.data)
+			const responseProd = await productoService.obtenerProductos();
+			setProductos(responseProd.data);
 		}
 		fetchData();
-	}, []);
+	}, [form]);
 
     return (
 		<View>
@@ -72,10 +64,9 @@ function VentaLista() {
 					title='Finalizar' 
 					onPress={() => {
 						console.log('Intenta finalizar el evento')
-						val()
-						if(noCumpleValidaciones()) { /* FALTAN VALIDACIONES */
+						if(noCumpleValidaciones()) { 
 							console.log('Validación: este evento ya fue finalizado')
-							Alert.alert('Este evento ya fue finalizado') 
+							Alert.alert('Error', 'Este evento ya fue finalizado') 
 						} else {
 							setForm({
 								visible: true,

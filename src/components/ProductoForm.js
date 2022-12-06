@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Formik } from "formik";
-import { StyleSheet, View, TextInput, Button, Alert, Text} from "react-native";
+import { StyleSheet, View, TextInput, Button, Alert, Text } from "react-native";
 
 import productoService from "../services/products";
 import NavBar from "./NavBar";
@@ -19,7 +19,7 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
     }
 
     function noCumpleValidaciones(values) {
-        return true
+        return false /* PENDIENTE */
     }
 
 	const agregarProducto = async (values) => {
@@ -61,10 +61,10 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
                 console.log(`Intenta ${buttonTitle}:`, values);
                 if(camposIncorrectos(values)) {
                     console.log('Primera validación: alguno de los campos no fue completado correctamente')
-                    Alert.alert('Alguno de los campos no fue completado correctamente')
+                    Alert.alert('Error *','Alguno de los campos no fue completado correctamente')
                 } else if(noCumpleValidaciones(values)) {
                     console.log(`Segunda validación: no cumple con los requisitos para ${buttonTitle} el producto`)
-                    Alert.alert('VALIDAR')
+                    Alert.alert('Error', 'VALIDAR Y MENSAJE')
                 } else {
                     form.nuevo ? agregarProducto(values) : modificarProducto(values) 
                     setForm({

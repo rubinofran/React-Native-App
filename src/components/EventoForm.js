@@ -12,16 +12,21 @@ function EventoForm({ form, setForm, eventos, setEventos }) {
     const buttonTitle = form.nuevo ? 'agregar' : 'modificar'
 
     function fechaInvalida(fecha) {
-        if(fecha.charAt(2) !== '/' | fecha.charAt(5) !== '/')  // No contiene separadores
+        if(fecha.length < 10) {
             return true
+        }
+        if(fecha.charAt(2) !== '/' | fecha.charAt(5) !== '/') { // No contiene separadores
+            return true
+        }
         const dma = fecha.split('/') 
         const meses = [ 
             {nro: "01", d: "31"}, {nro: "02", d: "28"}, {nro: "03", d: "31"}, {nro: "04", d: "30"},
             {nro: "05", d: "31"}, {nro: "06", d: "30"}, {nro: "07", d: "31"}, {nro: "08", d: "30"},
             {nro: "09", d: "30"}, {nro: "10", d: "31"}, {nro: "11", d: "30"}, {nro: "12", d: "30"} 
         ]
-        if(meses.some(m => dma[1] === m.nro && dma[0] <= m.d)) // fecha válida
+        if(meses.some(m => dma[1] === m.nro && dma[0] <= m.d)) { // fecha válida
             return false
+        }
         return true
     }
 
@@ -33,7 +38,7 @@ function EventoForm({ form, setForm, eventos, setEventos }) {
     }
 
     function noCumpleValidaciones(values) {
-        return true
+        return false /* PENDIENTE */
     }
 	const agregarEvento = async (values) => {
 		try {
@@ -74,10 +79,10 @@ function EventoForm({ form, setForm, eventos, setEventos }) {
                 console.log(`Intenta ${buttonTitle}:`, values);
                 if(camposIncorrectos(values)) {
                     console.log('Primera validación: alguno de los campos no fue completado correctamente')
-                    Alert.alert('Alguno de los campos no fue completado correctamente')
+                    Alert.alert('Error *', 'Alguno de los campos no fue completado correctamente')
                 } else if(noCumpleValidaciones(values)) {
                     console.log(`Segunda validación: no cumple con los requisitos para ${buttonTitle} el evento`)
-                    Alert.alert('VALIDAR')
+                    Alert.alert('Error', 'VALIDAR Y MENSAJE')
                 } else {
                     form.nuevo ? agregarEvento(values) : modificarEvento(values) 
                     setForm({
