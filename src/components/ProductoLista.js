@@ -30,7 +30,7 @@ const Formulario = ({ form, setForm, productos, setProductos }) => {
 function ProductoLista() {
 
 	const [form, setForm] = useState({
-		visible: Boolean,
+		visible: false,
 		nuevo: Boolean,
 		data: {}
 	});

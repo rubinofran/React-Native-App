@@ -87,7 +87,7 @@ function Venta({ data, productos, setProductos, noCumpleValidaciones }) {
                         if(noCumpleValidaciones()) { 
                             console.log('Validación: este evento ya fue finalizado')
 							Alert.alert('Error', 'Este evento ya fue finalizado')
-                        } else { 
+                        } else {
                             venderProducto(data)
                         }
                     }}

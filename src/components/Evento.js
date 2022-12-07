@@ -7,7 +7,7 @@ import { EventoInfoContext } from "../context/EventoInfoContext";
 import eventoService from "../services/events";
 import productoService from "../services/products";
 
-function Evento({ data, eventos, setEventos, setForm, productos, ventas }) {
+function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDetalles }) {
 
     const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
     const [claveAux, setClaveAux] = useState("")
@@ -24,7 +24,7 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas }) {
         let noCumple = false
         ventas.map(x => {
             if(x.Evento_ID === id) {
-                /* console.log('En producto pertenece a al menos un registro de venta: ', x) */
+                /* console.log('El evento pertenece a al menos un registro de venta: ', x) */
                 noCumple = true
             }
         })
@@ -151,6 +151,18 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas }) {
                         }
                         setClaveAux("")
 					}}
+                />
+                <Button 
+                    disabled={data.Evento_estado != "finalizado" ? true : false}
+                    color='lightblue'  
+                    title='Detalles'
+                    onPress={() => {
+                        console.log(`Consulta sobre los detalles del evento "${data.Evento_nombre}"`)
+                        setDetalles({
+                            visible: true,
+                            data: data
+                        })
+                    }}
                 />
             </View>
         </View>   

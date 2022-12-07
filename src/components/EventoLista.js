@@ -12,6 +12,7 @@ import ventaService from "../services/sales";
 import Evento from "../components/Evento"; 
 import NavBar from "./NavBar";
 import EventoForm from "./EventoForm";
+import EventoDetalles from "./EventoDetalles";
 
 const Formulario = ({ form, setForm, eventos, setEventos }) => {
 	return (
@@ -31,11 +32,34 @@ const Formulario = ({ form, setForm, eventos, setEventos }) => {
 	);
 }
 
+const Detalles = ({ detalles, setDetalles, ventas, productos}) => {
+	return (
+		<Modal
+        	transparent={false}
+        	visible={detalles.visible}
+		>
+			<View>
+				<EventoDetalles 
+					detalles={detalles} 
+					setDetalles={setDetalles}
+					ventas={ventas}
+					productos={productos}
+				/>
+			</View>
+		</Modal>
+	);
+}
+
 function EventoLista() {
-	
-    const [form, setForm] = useState({
-		visible: Boolean,
+
+	const [form, setForm] = useState({
+		visible: false,
 		nuevo: Boolean,
+		data: {}
+	});
+
+	const [detalles, setDetalles] = useState({
+		visible: false,
 		data: {}
 	});
 
@@ -85,6 +109,12 @@ function EventoLista() {
 					eventos={eventos}
 					setEventos={setEventos}
 				/>
+				<Detalles
+					detalles={detalles}
+					setDetalles={setDetalles}
+					ventas={ventas}
+					productos={productos}
+				/>
 			</View>
 			<View style={styles.subBar}>
 				<Text style={eventoInfo.estado ? styles.txtActivo : styles.txtInactivoFinalizado}>
@@ -106,6 +136,7 @@ function EventoLista() {
 							setForm={setForm}
 							productos={productos}
 							ventas={ventas}
+							setDetalles={setDetalles}
 						/>
 					)
 				})}

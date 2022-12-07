@@ -10,7 +10,7 @@ function Producto({ data, productos, setProductos, setForm, ventas }) {
         let noCumple = false
         ventas.map(x => {
             if(x.Producto_ID === id) {
-                /* console.log('En producto pertenece a al menos un registro de venta: ', x) */
+                /* console.log('El producto pertenece a al menos un registro de venta: ', x) */
                 noCumple = true
             }
         })
