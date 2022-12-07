@@ -21,6 +21,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.rubinofran.PorTuPuesto",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,6 +30,11 @@
     },
     "web": {
       "favicon": "./src/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "aa3aa191-7b3b-43f0-b392-cb5753420e88"
+      }
     }
   }
 }

@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
 import Constants from "expo-constants";
-import Router from "./routes/index";
+import Router from "./src/routes/index";
 
 import { useState, useMemo } from "react";
-import { EventoInfoContext } from "./context/EventoInfoContext";
+import { EventoInfoContext } from "./src/context/EventoInfoContext";
 
 function App() {
 
