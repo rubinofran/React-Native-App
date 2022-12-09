@@ -79,10 +79,8 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         padding: 10,
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 20,
-        marginRight: 20,
+        marginVertical: 10,
+        marginHorizontal: 20,
         borderRadius: 10
     },
     acciones: {

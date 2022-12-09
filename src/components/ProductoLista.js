@@ -106,7 +106,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         padding: 10,
         paddingHorizontal: 15,
-        backgroundColor: 'lightblue',
+        backgroundColor: 'lightgrey',
+		borderBottomColor: 'black',
+        borderBottomWidth: 1
     },
 	txt: {
         fontSize: 20
