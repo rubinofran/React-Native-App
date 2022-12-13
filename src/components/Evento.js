@@ -17,7 +17,7 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
     }
 
     function noCumpleValidaciones(clave) {
-        return clave !== claveAux
+        return clave !== claveAux | productos.length == 0
     }
 
     function noCumpleValidacionesParaEliminar(id) {
@@ -144,8 +144,8 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
                     onPress={() => {
                         console.log(`Intenta dar inicio al evento: ${data.Evento_nombre}`)
                         if(noCumpleValidaciones(data.Evento_clave_BM)) { 
-                            console.log('Validación: no cumple con los requisitos para eliminar el evento')
-                            Alert.alert('Error', 'Para dar inicio a un evento debe conocer la clave') 
+                            console.log('Validación: no cumple con los requisitos para dar inicio al evento')
+                            Alert.alert('Error', 'Para dar inicio a un evento debe conocer la clave y contar con al menos un producto registrado') 
                         } else {
                             activarEvento(data)
                         }

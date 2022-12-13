@@ -86,15 +86,16 @@ function VentaLista() {
 				/>
 			</View>
 			<ScrollView style={styles.scrollView}>
-				{productos.map((x, auxKey) => (
+				{productos.map((x, auxKey) => 
+					x.Producto_cantidad != 0 ?
 					<Venta
 						key={auxKey}
 						data={x}
 						productos={productos}
 						setProductos={setProductos}
 						noCumpleValidaciones={noCumpleValidaciones}
-					/>
-				))}
+					/> : void(0)
+				)}
 			</ScrollView>
 		</View>
     )

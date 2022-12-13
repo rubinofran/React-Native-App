@@ -43,6 +43,7 @@ function Producto({ data, productos, setProductos, setForm, ventas }) {
 						setForm({
                             visible: true,
                             nuevo: false,
+                            registrado: noCumpleValidacionesParaEliminar(data.Producto_ID),
                             data: data
                         })
 					}}

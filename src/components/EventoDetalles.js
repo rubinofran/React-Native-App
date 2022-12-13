@@ -80,7 +80,7 @@ function EventoDetalles({ detalles, setDetalles, ventas, productos }) {
     return (
         <View style={styles.color}>
             <NavBar />
-            <View style={styles.subBar}>
+{/*             <View style={styles.subBar}>
                 <Text style={styles.txt}>DETALLES</Text>
 				<Button
 					color='salmon'  
@@ -93,7 +93,7 @@ function EventoDetalles({ detalles, setDetalles, ventas, productos }) {
 						})
 					}}
 				/>
-            </View>
+            </View> */}
             <Text style={styles.txt}>
                 {detalles.data.Evento_nombre} ({detalles.data.Evento_fecha})
             </Text>
@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
     },
     scrollView: {
 		backgroundColor: 'grey',
-        maxHeight: 200,
-        minHeight: 200
+        maxHeight: 100,
+        minHeight: 100
 	},
     subBar: {
         flexDirection: 'row',

@@ -32,6 +32,7 @@ function ProductoLista() {
 	const [form, setForm] = useState({
 		visible: false,
 		nuevo: Boolean,
+		registrado: false,
 		data: {}
 	});
 
@@ -62,6 +63,7 @@ function ProductoLista() {
 						setForm({
 							visible: true,
 							nuevo: true,
+							registrado: false,
 							data: {
 								Producto_nombre: '',
 								Producto_descrip: '',

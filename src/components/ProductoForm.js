@@ -12,14 +12,27 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
     const buttonTitle = form.nuevo ? 'agregar' : 'modificar'
 
     function camposIncorrectos(values) {
+
+        const precio = Number(values.Producto_precio_por_unidad)
+        const cant = Number(values.Producto_cantidad)
+        
+        /* No se pueden guardar cadenas donde van números */
+        /* console.log(typeof precio === 'number' && isFinite(precio))
+        console.log(typeof cant === 'number' && isFinite(cant)) */
+        
         return  values.Producto_nombre === ""|
-                values.Producto_marca === "" |
+                values.Producto_marca === "" | 
+                values.Producto_precio_por_unidad === "" |
+                values.Producto_cantidad === "" |
+                !(typeof precio === 'number' && isFinite(precio)) |
+                !(typeof cant === 'number' && isFinite(cant)) |
                 values.Producto_precio_por_unidad <= 0 | 
-                values.Producto_cantidad < 0  
+                values.Producto_cantidad < 0   
     }
 
     function noCumpleValidaciones(values) {
-        return false /* PENDIENTE */
+        return (form.registrado & values.Producto_nombre != productoAux.Producto_nombre) |
+               (form.registrado & values.Producto_marca  != productoAux.Producto_marca)
     }
 
 	const agregarProducto = async (values) => {
@@ -64,12 +77,13 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
                     Alert.alert('Error *','Alguno de los campos no fue completado correctamente')
                 } else if(noCumpleValidaciones(values)) {
                     console.log(`Segunda validación: no cumple con los requisitos para ${buttonTitle} el producto`)
-                    Alert.alert('Error', 'VALIDAR Y MENSAJE')
+                    Alert.alert('Error', 'El producto pertenece a los registros de venta y no se pueden modificar su nombre o marca')
                 } else {
                     form.nuevo ? agregarProducto(values) : modificarProducto(values) 
                     setForm({
                         visible: false,
-                        nuevo: true
+                        nuevo: true,
+                        registrado: false,
                     });
                 }
             }}
@@ -128,7 +142,8 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
                                         console.log('Se cancela la operación')
                                         setForm({
                                             visible: false,
-                                            nuevo: true
+                                            nuevo: true,
+                                            registrado: false,
                                         })
                                     }}
                                 />
