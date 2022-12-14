@@ -35,24 +35,28 @@ function VentaLista() {
 		data: {}
 	});
 
-    const [productos, setProductos] = useState([]);
-    const [eventoActivo, setEventoActivo] = useState({});
+    const [productos, setProductos] = useState([])
+    const [eventoActivo, setEventoActivo] = useState({})
 	const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
 
 	function noCumpleValidaciones() {
-		return eventoActivo.Evento_estado != "activo" 
+		return eventoActivo.Evento_estado != "activo"
 	}
 
 	useEffect(() => {
 		async function fetchData() {
-			console.log('Obteniendo información del evento activo')
+			/* console.log('Obteniendo información del evento activo') */
 			const responseEv = await eventoService.obtenerEvento(eventoInfo.id)
 			setEventoActivo(responseEv.data)
-			const responseProd = await productoService.obtenerProductos();
+			const responseProd = await productoService.obtenerProductos()
 			setProductos(responseProd.data);
 		}
-		fetchData();
-	}, [form]);
+		/* fetchData(); */
+		const interval = setInterval(() => {
+			fetchData();
+		}, 1000);
+		return () => clearInterval(interval);
+	}, []);
 
     return (
 		<View>

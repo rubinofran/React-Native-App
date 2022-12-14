@@ -1,6 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { StyleSheet, View, Button, ScrollView, Text, FlatList } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, ScrollView, Text } from "react-native";
 
 import NavBar from "./NavBar";
 
@@ -17,7 +17,7 @@ const Info = ({ x }) => {
     )
 }
 
-function EventoDetalles({ detalles, setDetalles, ventas, productos }) {
+function EventoDetalles({ detalles, /* setDetalles, */ ventas, productos }) {
     
     const [recaud] = useState(() => {
         let rec = 0
@@ -64,23 +64,11 @@ function EventoDetalles({ detalles, setDetalles, ventas, productos }) {
         return `Existe una ganancia de ${monto - recaud}$`  
     }
 
-    useEffect(() => {
-        /* console.log('Evento: ', detalles.data) */
-/*        console.log(info)
-        console.log('Recaudación: ', recaud)
-        console.log('Productos: ', productos)
-		console.log('Evento: ', detalles.data)
-        ventas.map(x => {
-            if(x.Evento_ID === detalles.data.Evento_ID) {
-                console.log('Venta: ', x)
-            }
-        }) */
-	}, []);
-
     return (
         <View style={styles.color}>
             <NavBar />
-{/*             <View style={styles.subBar}>
+            {/* Descartada, no afecta pero la vista ocupa mucho lugar */}
+            {/* <View style={styles.subBar}>
                 <Text style={styles.txt}>DETALLES</Text>
 				<Button
 					color='salmon'  
@@ -94,57 +82,63 @@ function EventoDetalles({ detalles, setDetalles, ventas, productos }) {
 					}}
 				/>
             </View> */}
-            <Text style={styles.txt}>
-                {detalles.data.Evento_nombre} ({detalles.data.Evento_fecha})
-            </Text>
-            
-            <Text style={styles.txt}>
-                Descripción: {detalles.data.Evento_descrip === "" ? 'Sin descripción' : detalles.data.Evento_descrip}
-            </Text>
-            <Text style={styles.txt}>
-                Ganancias registradas:
-            </Text>
-            <Text style={styles.txtInf}>
-                {detalles.data.Evento_monto}$
-            </Text>
-            <Text style={styles.txt}>
-                Ganancias esperadas según las ventas:
-            </Text>
-            <Text style={styles.txtInf}>
-                {recaud}$
-            </Text>
-            <Text style={styles.txt}>
-                Relación entre el monto registrado y la ganancia esperada: 
-            </Text>
-            <Text style={styles.txtInf}>
-                {calcularRelac(detalles.data.Evento_monto, recaud)}
-            </Text>
-            <Text style={styles.txt}>
-                Ganancia esperada por cada producto:
-            </Text>
-            <ScrollView style={styles.scrollView}>
-                {info.map((x, auxKey) => {
-                    return (
-                        <Info
-                            key={auxKey}
-                            x={x}
-                        />
-                    )
-                })}
-            </ScrollView>
+            <View style={styles.det}>
+                <Text style={styles.txt}>
+                    {detalles.data.Evento_nombre} ({detalles.data.Evento_fecha})
+                </Text>
+
+                <Text style={styles.txt}>
+                    Ganancias registradas:
+                </Text>
+                <Text style={styles.txtInf}>
+                    {detalles.data.Evento_monto}$
+                </Text>
+
+                <Text style={styles.txt}>
+                    Ganancias esperadas según las ventas:
+                </Text>
+                <Text style={styles.txtInf}>
+                    {recaud}$
+                </Text>
+
+                <Text style={styles.txt}>
+                    Relación entre el monto registrado y la ganancia esperada: 
+                </Text>
+                <Text style={styles.txtInf}>
+                    {calcularRelac(detalles.data.Evento_monto, recaud)}
+                </Text>
+                
+                <Text style={styles.txt}>
+                    Ganancia esperada por cada producto:
+                </Text>
+                <ScrollView style={styles.scrollView}>
+                    {info.map((x, auxKey) => {
+                        return (
+                            <Info
+                                key={auxKey}
+                                x={x}
+                            />
+                        )
+                    })}
+                </ScrollView>
+            </View>
         </View>
     );
 
 }
 
 const styles = StyleSheet.create({
-    color: {
-        backgroundColor: 'lightblue'
+    det: {
+        backgroundColor: 'lightblue',
+        minHeight: 800
     },
     scrollView: {
-		backgroundColor: 'grey',
+		backgroundColor: 'lightblue',
         maxHeight: 100,
-        minHeight: 100
+        minHeight: 100,
+        borderWidth: 1,
+        borderColor: 'black',
+        marginTop: 20,
 	},
     subBar: {
         flexDirection: 'row',

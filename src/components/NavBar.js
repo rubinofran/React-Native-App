@@ -19,8 +19,10 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingHorizontal: 15,
         backgroundColor: 'lightgrey',
-        borderColor: 'black',
-        borderWidth: 1, 
+        borderTopColor: 'black',
+        borderTopWidth: 1,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1
     },
     txt: {
         fontSize: 20,

@@ -17,7 +17,9 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
     }
 
     function noCumpleValidaciones(clave) {
-        return clave !== claveAux | productos.length == 0
+        let sinUnidades = false
+        sinUnidades = productos.length > 0 && productos.every(x => x.Producto_cantidad == 0)
+        return clave !== claveAux | productos.length == 0 | sinUnidades
     }
 
     function noCumpleValidacionesParaEliminar(id) {
@@ -52,11 +54,11 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
                 Evento_estado: "activo"
             });
             values.Evento_estado = "activo"
-            setEventos([...eventos.filter(x => x.Evento_ID !== values.Evento_ID), values]);
+            setEventos([...eventos.filter(x => x.Evento_ID !== values.Evento_ID), values])
             setEventoInfo({ id: values.Evento_ID, estado: true, prods: productos })
             console.log('Se activó el evento de la lista')
         } catch (err) {
-            console.log('ERROR, no se pudo activar el evento de la lista: ', err);
+            console.log('ERROR, no se pudo activar el evento de la lista: ', err)
         }
 	};
 
@@ -66,7 +68,7 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
                 const responseProd = await productoService.obtenerProductos()
                 setEventoInfo({ id: data.Evento_ID, estado: true, prods: responseProd.data })    
             }
-            fetchData();
+            fetchData()
         }
 	}, []);
 
@@ -84,7 +86,7 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
             <TextInput 
                 editable={data.Evento_estado === "activo" | data.Evento_estado === "finalizado" ? false : true}
                 style={styles.txt}
-                placeholder='Clave para eliminar o modificar'
+                placeholder='Clave para modif. o elim.'
                 value={claveAux}
                 onChangeText={onChangeText}
                 maxLength={10}

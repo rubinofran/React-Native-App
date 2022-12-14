@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Formik } from "formik";
 import { StyleSheet, View, TextInput, Button, Alert, Text} from "react-native";
 
@@ -13,6 +13,8 @@ function VentaForm({ form, setForm, eventoActivo, setEventoActivo }) {
 
     function camposIncorrectos(values) {
         return  values.Evento_clave_BM === "" | 
+                values.Evento_monto === "" |
+                !(typeof Number(values.Evento_monto) === 'number' && isFinite(Number(values.Evento_monto))) |
                 values.Evento_monto <= 0
     }
 
@@ -32,7 +34,7 @@ function VentaForm({ form, setForm, eventoActivo, setEventoActivo }) {
             });
             console.log('Se finalizó el evento')
         } catch (err) {
-            console.log('ERROR, no se pudo finalizar el evento: ', err);
+            console.log('ERROR, no se pudo finalizar el evento: ', err)
         }
 	};
 
@@ -103,7 +105,8 @@ function VentaForm({ form, setForm, eventoActivo, setEventoActivo }) {
 
 const styles = StyleSheet.create({
     form: {
-        backgroundColor: 'lightblue'
+        backgroundColor: 'lightblue',
+        minHeight: 700
     },
     input: {
         backgroundColor: 'lightgrey',

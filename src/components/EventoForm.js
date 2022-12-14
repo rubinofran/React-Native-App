@@ -51,7 +51,7 @@ function EventoForm({ form, setForm, eventos, setEventos }) {
 			setEventos([...eventos, values]);
             console.log('Se agregó el nuevo evento a la lista')
 		} catch (err) {
-			console.log('ERROR, no se pudo agregar el nuevo evento a la lista: ', err);
+			console.log('ERROR, no se pudo agregar el nuevo evento a la lista: ', err)
 		}
 	};
 
@@ -65,10 +65,10 @@ function EventoForm({ form, setForm, eventos, setEventos }) {
                 Evento_fecha: values.Evento_fecha,
                 Evento_estado: values.Evento_estado
             });
-            setEventos([...eventos.filter(x => x.Evento_ID !== values.Evento_ID), values]);
+            setEventos([...eventos.filter(x => x.Evento_ID !== values.Evento_ID), values])
             console.log('Se modificó el evento de la lista')
         } catch (err) {
-            console.log('ERROR, no se pudo modificar el evento de la lista: ', err);
+            console.log('ERROR, no se pudo modificar el evento de la lista: ', err)
         }
 	};
 
@@ -156,7 +156,8 @@ function EventoForm({ form, setForm, eventos, setEventos }) {
 
 const styles = StyleSheet.create({
     form: {
-        backgroundColor: 'lightblue'
+        backgroundColor: 'lightblue',
+        minHeight: 700
     },
     input: {
         backgroundColor: 'lightgrey',

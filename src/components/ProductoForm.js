@@ -16,10 +16,6 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
         const precio = Number(values.Producto_precio_por_unidad)
         const cant = Number(values.Producto_cantidad)
         
-        /* No se pueden guardar cadenas donde van números */
-        /* console.log(typeof precio === 'number' && isFinite(precio))
-        console.log(typeof cant === 'number' && isFinite(cant)) */
-        
         return  values.Producto_nombre === ""|
                 values.Producto_marca === "" | 
                 values.Producto_precio_por_unidad === "" |
@@ -47,7 +43,7 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
 			setProductos([...productos, values]);
             console.log('Se agregó el nuevo producto a la lista')
 		} catch (err) {
-			console.log('ERROR, no se pudo agregar el nuevo producto a la lista: ', err);
+			console.log('ERROR, no se pudo agregar el nuevo producto a la lista: ', err)
 		}
 	};
 
@@ -63,7 +59,7 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
             setProductos([...productos.filter(x => x.Producto_ID !== values.Producto_ID), values]);
             console.log('Se modificó el producto de la lista')
         } catch (err) {
-            console.log('ERROR, no se pudo modificar el producto de la lista: ', err);
+            console.log('ERROR, no se pudo modificar el producto de la lista: ', err)
         }
 	};
 
@@ -158,7 +154,8 @@ function ProductoForm({ form, setForm, productos, setProductos }) {
 
 const styles = StyleSheet.create({
     form: {
-        backgroundColor: 'lightblue'
+        backgroundColor: 'lightblue',
+        minHeight: 700
     },
     input: {
         backgroundColor: 'lightgrey',

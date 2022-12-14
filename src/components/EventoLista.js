@@ -32,7 +32,7 @@ const Formulario = ({ form, setForm, eventos, setEventos }) => {
 	);
 }
 
-const Detalles = ({ detalles, setDetalles, ventas, productos}) => {
+const Detalles = ({ detalles, /* setDetalles, */ ventas, productos}) => {
 	return (
 		<Modal
         	transparent={false}
@@ -41,7 +41,7 @@ const Detalles = ({ detalles, setDetalles, ventas, productos}) => {
 			<View>
 				<EventoDetalles 
 					detalles={detalles} 
-					setDetalles={setDetalles}
+					/* setDetalles={setDetalles} */
 					ventas={ventas}
 					productos={productos}
 				/>
@@ -63,7 +63,7 @@ function EventoLista() {
 		data: {}
 	});
 
-	const { eventoInfo, setEventoInfo } = useContext(EventoInfoContext)
+	const { eventoInfo } = useContext(EventoInfoContext)
     const [eventos, setEventos] = useState([])
 	const [productos, setProductos] = useState([])
 	const [ventas, setVentas] = useState([])
@@ -111,7 +111,7 @@ function EventoLista() {
 				/>
 				<Detalles
 					detalles={detalles}
-					setDetalles={setDetalles}
+					/* setDetalles={setDetalles} */
 					ventas={ventas}
 					productos={productos}
 				/>

@@ -23,7 +23,7 @@ function Producto({ data, productos, setProductos, setForm, ventas }) {
 			setProductos(productos.filter(x => x.Producto_ID !== id));
 			console.log('Se eliminó el producto de la lista')
 		} catch (err) {
-			console.log('ERROR, no se pudo eliminar el producto de la lista: ', err);
+			console.log('ERROR, no se pudo eliminar el producto de la lista: ', err)
 		}
 	};
 

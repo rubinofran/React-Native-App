@@ -1,6 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import { StyleSheet, View, Button, Modal, ScrollView, Text } from "react-native";
+
 
 import productoService from "../services/products";
 import ventaService from "../services/sales";
@@ -36,15 +37,15 @@ function ProductoLista() {
 		data: {}
 	});
 
-    const [productos, setProductos] = useState([]);
+    const [productos, setProductos] = useState([])
 	const [ventas, setVentas] = useState([])
 
     useEffect(() => {
 		console.log('Ingresando al listado de productos')
 		async function fetchData() {
-			const responseProd = await productoService.obtenerProductos();
+			const responseProd = await productoService.obtenerProductos()
 			setProductos(responseProd.data);
-			const responseVe = await ventaService.obtenerVentas();
+			const responseVe = await ventaService.obtenerVentas()
 			setVentas(responseVe.data)
 		}
 		fetchData();
