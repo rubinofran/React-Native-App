@@ -49,13 +49,16 @@ function VentaLista() {
 			const responseEv = await eventoService.obtenerEvento(eventoInfo.id)
 			setEventoActivo(responseEv.data)
 			const responseProd = await productoService.obtenerProductos()
-			setProductos(responseProd.data);
+			setProductos(responseProd.data)
 		}
-		/* fetchData(); */
-		const interval = setInterval(() => {
+		/* 
+		Para utlizar la app desde más de un smartphone a la vez y poder registrar ventas entre varias
+		personas se debe descomentar de modo que puedan ver las actualizaciones de la BD constantemente
+		*/
+		// const interval = setInterval(() => { 
 			fetchData();
-		}, 1000);
-		return () => clearInterval(interval);
+		//}, 1000);
+		// return () => clearInterval(interval); 
 	}, []);
 
     return (

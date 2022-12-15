@@ -17,9 +17,7 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
     }
 
     function noCumpleValidaciones(clave) {
-        let sinUnidades = false
-        sinUnidades = productos.length > 0 && productos.every(x => x.Producto_cantidad == 0)
-        return clave !== claveAux | productos.length == 0 | sinUnidades
+        return clave !== claveAux | productos.length == 0
     }
 
     function noCumpleValidacionesParaEliminar(id) {
@@ -31,6 +29,10 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
             }
         })
         return noCumple
+    }
+    
+    function noCumpleValidacionesParaIniciar() {
+        return productos.length > 0 && productos.every(x => x.Producto_cantidad == 0)
     }
 
     const eliminarEvento = async (id) => {
@@ -130,7 +132,7 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
                             Alert.alert('Error', 'Para modificar un evento debe conocer la clave') 
                         } else if(noCumpleValidacionesParaEliminar(data.Evento_ID)) { 
                             console.log('Validación: no cumple con los requisitos para eliminar el evento')
-                            Alert.alert('Error', 'El pevento pertenece a los registros de venta y no puede ser eliminado') 
+                            Alert.alert('Error', 'El evento pertenece a los registros de venta y no puede ser eliminado') 
                         } else {
                             eliminarEvento(data.Evento_ID)
                         }
@@ -147,7 +149,10 @@ function Evento({ data, eventos, setEventos, setForm, productos, ventas, setDeta
                         console.log(`Intenta dar inicio al evento: ${data.Evento_nombre}`)
                         if(noCumpleValidaciones(data.Evento_clave_BM)) { 
                             console.log('Validación: no cumple con los requisitos para dar inicio al evento')
-                            Alert.alert('Error', 'Para dar inicio a un evento debe conocer la clave y contar con al menos un producto registrado') 
+                            Alert.alert('Error', 'Para dar inicio a un evento debe conocer la clave') 
+                        } else if(noCumpleValidacionesParaIniciar()) {
+                            console.log('Validación: no cumple con los requisitos para dar inicio al evento')
+                            Alert.alert('Error', 'Para dar inicio a un evento debe contar con al menos un producto registrado') 
                         } else {
                             activarEvento(data)
                         }
